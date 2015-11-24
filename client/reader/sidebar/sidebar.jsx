@@ -11,7 +11,8 @@ const assign = require( 'lodash/object/assign' ),
 	React = require( 'react' ),
 	page = require( 'page' ),
 	url = require( 'url' ),
-	last = require( 'lodash/array/last' );
+	last = require( 'lodash/array/last' ),
+	classNames = require( 'classnames' );
 
 /**
  * Internal Dependencies
@@ -92,7 +93,12 @@ module.exports = React.createClass( {
 	},
 
 	getInitialState: function() {
-		return this.getStateFromStores();
+		//return this.getStateFromStores();
+		return assign(
+			{ isListsToggled: false },
+			{ isTagsToggled: false },
+			this.getStateFromStores()
+		);
 	},
 
 	getStateFromStores: function() {
@@ -208,6 +214,7 @@ module.exports = React.createClass( {
 			const isActionButtonSelected = this.pathStartsWithOneOf( listManagementUrls );
 
 			const classes = classnames(
+				this.itemLinkClassStartsWithOneOf( [ listRelativeUrl ], { 'sidebar-menu__item has-buttons': true } ),
 				{
 					'sidebar-dynamic-menu__list has-buttons': true,
 					selected: isCurrentList || isActionButtonSelected,
@@ -216,8 +223,8 @@ module.exports = React.createClass( {
 			);
 
 			return (
-				<li className={ classes } key={ list.ID }>
-					<a href={ list.URL }><span className="menu-link-text">{ list.title }</span></a>
+				<li className={ classes } key={ list.ID } >
+					<a className="sidebar-menu__item-label" href={ list.URL }>{ list.title }</a>
 					{ list.is_owner ? <a href={ listManageUrl } rel={ listRel } className="add-new">{ this.translate( 'Manage' ) }</a> : null }
 				</li>
 			);
@@ -231,13 +238,13 @@ module.exports = React.createClass( {
 
 		return map( this.state.tags, function( tag ) {
 			return (
-				<li className={ this.itemLinkClass( '/tag/' + tag.slug, { 'sidebar-dynamic-menu__tag': true } ) } key={ tag.ID } >
-					<a href={ tag.URL }>
+				<li className={ this.itemLinkClass( '/tag/' + tag.slug, { 'sidebar-menu__item': true } ) } key={ tag.ID } >
+					<a className="sidebar-menu__item-label" href={ tag.URL }>
 						{ tag.title || tag.slug }
 					</a>
-					{ tag.ID !== 'pending' ? <button className="sidebar-dynamic-menu__action" data-tag-slug={ tag.slug } onClick={ this.unfollowTag }>
+					{ tag.ID !== 'pending' ? <button className="sidebar-menu__action" data-tag-slug={ tag.slug } onClick={ this.unfollowTag }>
 						<Gridicon icon="cross" size={ 24 } />
-						<span className="sidebar-dynamic-menu__action-label">{ this.translate( 'Unfollow' ) }</span>
+						<span className="sidebar-menu__action-label">{ this.translate( 'Unfollow' ) }</span>
 					</button> : null }
 				</li>
 			);
@@ -262,7 +269,52 @@ module.exports = React.createClass( {
 		}, this );
 	},
 
+	getFollowingEditLink: function() {
+		var followingEditUrl = '/following/edit',
+			followingEditRel;
+
+		// If Calypso following/edit isn't yet enabled, use the Atlas version
+		if ( ! config.isEnabled( 'reader/following-edit' ) ) {
+			followingEditUrl = 'https://wordpress.com'.concat( followingEditUrl );
+			followingEditRel = 'external';
+		}
+
+		return {
+			url: followingEditUrl,
+			rel: followingEditRel
+		};
+	},
+
+	toggleMenuLists: function( event ) {
+		event.preventDefault();
+		this.setState( {
+			isListsToggled: ! this.state.isListsToggled
+		} );
+	},
+
+	toggleMenuTags: function( event ) {
+		event.preventDefault();
+		this.setState( {
+			isTagsToggled: ! this.state.isTagsToggled
+		} );
+	},
+
 	render: function() {
+		let followingEditLink = this.getFollowingEditLink();
+
+		var listsClassNames = classNames( {
+				'sidebar-menu': true,
+				'is-dynamic': true,
+				'is-togglable': true,
+				'is-toggle-open': this.state.isListsToggled
+			} ),
+			tagsClassNames = classNames( {
+				'sidebar-menu': true,
+				'is-dynamic': true,
+				'is-togglable': true,
+				'is-toggle-open': this.state.isTagsToggled
+			} );
+
 		return (
 			<Sidebar onClick={ this.handleClick }>
 				<SidebarMenu>
@@ -314,25 +366,46 @@ module.exports = React.createClass( {
 						</li>
 					</ul>
 				</SidebarMenu>
-				<SidebarMenu>
-					<SidebarHeading>{ this.translate( 'Lists' ) }</SidebarHeading>
-					<ul>
-						{ this.renderLists() }
 
-						<li className="sidebar-dynamic-menu__add" key="add-list">
-							<input className="sidebar-dynamic-menu__add-input" type="text" placeholder={ this.translate( 'New List' ) } ref="addListInput" onKeyDown={ this.handleCreateListKeyDown } />
+				<li className={ listsClassNames }>
+					<h2 className="sidebar-heading" onClick={ this.toggleMenuLists }>
+						<Gridicon icon="chevron-down" />
+						<span>{ this.translate( 'Lists' ) }</span>
+					</h2>
+
+					<ul className="sidebar-menu__list">
+						{ this.renderLists() }
+						<li className="sidebar-menu__add" key="add-list">
+							<input
+								className="sidebar-menu__add-input"
+								type="text"
+								placeholder={ this.translate( 'Create a new list' ) }
+								ref="addListInput"
+								onKeyDown={ this.handleCreateListKeyDown }
+							/>
 						</li>
 					</ul>
-				</SidebarMenu>
-				<SidebarMenu>
-					<SidebarHeading>{ this.translate( 'Tags' ) }</SidebarHeading>
-					<ul>
+				</li>
+
+				<li className={ tagsClassNames }>
+					<h2 className="sidebar-heading" onClick={ this.toggleMenuTags }>
+						<Gridicon icon="chevron-down" />
+						{ this.translate( 'Tags' ) }
+					</h2>
+
+					<ul className="sidebar-menu__list">
 						{ this.renderTags() }
-						<li className="sidebar-dynamic-menu__add" key="add-tag">
-							<input className="sidebar-dynamic-menu__add-input" type="text" placeholder={ this.translate( 'Follow a Tag' ) } ref="addTagInput" onKeyDown={ this.handleFollowTagKeyDown } />
+						<li className="sidebar-menu__add" key="add-tag">
+							<input
+								className="sidebar-menu__add-input"
+								type="text"
+								placeholder={ this.translate( 'Follow a Tag' ) }
+								ref="addTagInput"
+								onKeyDown={ this.handleFollowTagKeyDown }
+							/>
 						</li>
 					</ul>
-				</SidebarMenu>
+				</li>
 			</Sidebar>
 		);
 	}
