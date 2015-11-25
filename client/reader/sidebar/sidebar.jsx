@@ -302,6 +302,17 @@ module.exports = React.createClass( {
 		this.setState( {
 			isListsAddOpen: ! this.state.isListsAddOpen
 		} );
+
+		if ( this.state.isListsAddOpen ) {
+			document.getElementById( 'sidebar-menu__add-list' ).focus();
+		}
+	},
+
+	disableListsAdd: function( event ) {
+		event.preventDefault();
+		this.setState( {
+			isListsAddOpen: false
+		} );
 	},
 
 	toggleMenuTags: function( event ) {
@@ -315,6 +326,17 @@ module.exports = React.createClass( {
 		event.preventDefault();
 		this.setState( {
 			isTagsAddOpen: ! this.state.isTagsAddOpen
+		} );
+
+		if ( this.state.isTagsAddOpen ) {
+			document.getElementById( 'sidebar-menu__add-tag' ).focus();
+		}
+	},
+
+	disableTagsAdd: function( event ) {
+		event.preventDefault();
+		this.setState( {
+			isTagsAddOpen: false
 		} );
 	},
 
@@ -399,12 +421,14 @@ module.exports = React.createClass( {
 
 					<div className="sidebar-menu__add" key="add-list">
 						<input
+							id="sidebar-menu__add-list"
 							className="sidebar-menu__add-input"
 							type="text"
-							placeholder={ this.translate( 'Create a new list' ) }
+							placeholder={ this.translate( 'Give your list a name...' ) }
 							ref="addListInput"
 							onKeyDown={ this.handleCreateListKeyDown }
 						/>
+						<Gridicon icon="cross-small" onClick={ this.disableListsAdd } />
 					</div>
 
 					<ul className="sidebar-menu__list">
@@ -423,12 +447,14 @@ module.exports = React.createClass( {
 
 					<div className="sidebar-menu__add" key="add-tag">
 						<input
+							id="sidebar-menu__add-tag"
 							className="sidebar-menu__add-input"
 							type="text"
-							placeholder={ this.translate( 'Follow a Tag' ) }
+							placeholder={ this.translate( 'Add any tag...' ) }
 							ref="addTagInput"
 							onKeyDown={ this.handleFollowTagKeyDown }
 						/>
+						<Gridicon icon="cross-small" onClick={ this.disableTagsAdd } />
 					</div>
 
 					<ul className="sidebar-menu__list">
