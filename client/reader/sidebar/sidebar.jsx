@@ -334,6 +334,18 @@ module.exports = React.createClass( {
 		} );
 	},
 
+	renderEmptyList: function() {
+		return(
+			<li className="sidebar-menu__empty">{ this.translate( 'Collect sites together by adding a\xa0list.' ) }</li>
+		);
+	},
+
+	renderEmptyTags: function() {
+		return(
+			<li className="sidebar-menu__empty">{ this.translate( 'Finds relevant posts by adding a\xa0tag.' ) }</li>
+		);
+	},
+
 	render: function() {
 		let followingEditLink = this.getFollowingEditLink();
 
@@ -350,7 +362,23 @@ module.exports = React.createClass( {
 				'is-togglable': true,
 				'is-toggle-open': this.state.isTagsToggled,
 				'is-add-open': this.state.isTagsAddOpen
-			} );
+			} ),
+			isTags = false,
+			isLists = false,
+			tagCount = 0,
+			listCount = 0;
+
+		if ( typeof this.state.tags != "undefined" && this.state.tags != null && this.state.tags.length > 0 ) {
+			isTags = true;
+			tagCount = this.state.tags.length;
+		}
+
+		if ( typeof this.state.lists != "undefined" && this.state.lists != null && this.state.lists.length > 0 ) {
+			isLists = true;
+			listCount = this.state.lists.length;
+		}
+
+		console.log( listCount, tagCount );
 
 		return (
 			<Sidebar onClick={ this.handleClick }>
@@ -408,7 +436,10 @@ module.exports = React.createClass( {
 					<h2 className="sidebar-heading" onClick={ this.toggleMenuLists }>
 						<Gridicon icon="chevron-down" />
 						<span>{ this.translate( 'Lists' ) }</span>
-						<Count count={ 5 } />
+						{ isLists
+							? <Count count={ listCount } />
+							: null
+						}
 					</h2>
 
 					<Button compact className="sidebar-menu__add-button" onClick={ this.toggleListsAdd }>Add</Button>
@@ -425,7 +456,12 @@ module.exports = React.createClass( {
 					</div>
 
 					<ul className="sidebar-menu__list">
-						{ this.renderLists() }
+						{
+							// There's got to be a better way to do this...
+							isLists
+							? this.renderLists()
+							: this.renderEmptyList()
+						}
 					</ul>
 				</li>
 
@@ -433,7 +469,10 @@ module.exports = React.createClass( {
 					<h2 className="sidebar-heading" onClick={ this.toggleMenuTags }>
 						<Gridicon icon="chevron-down" />
 						{ this.translate( 'Tags' ) }
-						<Count count={ 4 } />
+						{ isTags
+							? <Count count={ tagCount } />
+							: null
+						}
 					</h2>
 
 					<Button compact className="sidebar-menu__add-button" onClick={ this.toggleTagsAdd }>Add</Button>
@@ -450,7 +489,12 @@ module.exports = React.createClass( {
 					</div>
 
 					<ul className="sidebar-menu__list">
-						{ this.renderTags() }
+						{
+							// There's got to be a better way to do this...
+							isTags
+							? this.renderTags()
+							: this.renderEmptyTags()
+						}
 					</ul>
 				</li>
 			</Sidebar>

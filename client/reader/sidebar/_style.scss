@@ -123,6 +123,14 @@
 
 	.sidebar-menu__list {}
 
+	.sidebar-menu__empty,
+	.sidebar-menu__empty:hover {
+		padding: 0 32px 0 55px;
+		font-size: 13px;
+		color: $gray-dark;
+		background-color: transparent !important; // needs to be more specific
+	}
+
 	.sidebar-menu__item {
 		a.add-new {
 			margin-top: 5px;
