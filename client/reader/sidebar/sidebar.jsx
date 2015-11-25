@@ -368,12 +368,12 @@ module.exports = React.createClass( {
 			tagCount = 0,
 			listCount = 0;
 
-		if ( typeof this.state.tags != "undefined" && this.state.tags != null && this.state.tags.length > 0 ) {
+		if ( typeof this.state.tags !== "undefined" && this.state.tags !== null && this.state.tags.length > 0 ) {
 			isTags = true;
 			tagCount = this.state.tags.length;
 		}
 
-		if ( typeof this.state.lists != "undefined" && this.state.lists != null && this.state.lists.length > 0 ) {
+		if ( typeof this.state.lists !== "undefined" && this.state.lists !== null && this.state.lists.length > 0 ) {
 			isLists = true;
 			listCount = this.state.lists.length;
 		}
