@@ -291,50 +291,44 @@ module.exports = React.createClass( {
 	},
 
 	toggleMenuLists: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isListsToggled: ! this.state.isListsToggled
 		} );
 	},
 
 	toggleListsAdd: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isListsAddOpen: ! this.state.isListsAddOpen
 		} );
 
-		if ( this.state.isListsAddOpen ) {
-			document.getElementById( 'sidebar-menu__add-list' ).focus();
+		if ( ! this.state.isListsAddOpen ) {
+			this.refs.addListInput.getDOMNode().focus();
 		}
 	},
 
 	disableListsAdd: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isListsAddOpen: false
 		} );
 	},
 
 	toggleMenuTags: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isTagsToggled: ! this.state.isTagsToggled
 		} );
 	},
 
 	toggleTagsAdd: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isTagsAddOpen: ! this.state.isTagsAddOpen
 		} );
 
-		if ( this.state.isTagsAddOpen ) {
-			document.getElementById( 'sidebar-menu__add-tag' ).focus();
+		if ( ! this.state.isTagsAddOpen ) {
+			this.refs.addTagInput.getDOMNode().focus();
 		}
 	},
 
 	disableTagsAdd: function( event ) {
-		event.preventDefault();
 		this.setState( {
 			isTagsAddOpen: false
 		} );
@@ -421,7 +415,6 @@ module.exports = React.createClass( {
 
 					<div className="sidebar-menu__add" key="add-list">
 						<input
-							id="sidebar-menu__add-list"
 							className="sidebar-menu__add-input"
 							type="text"
 							placeholder={ this.translate( 'Give your list a name' ) }
@@ -447,7 +440,6 @@ module.exports = React.createClass( {
 
 					<div className="sidebar-menu__add" key="add-tag">
 						<input
-							id="sidebar-menu__add-tag"
 							className="sidebar-menu__add-input"
 							type="text"
 							placeholder={ this.translate( 'Add any tag' ) }
