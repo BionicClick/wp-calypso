@@ -78,6 +78,7 @@ const SidebarMenu = React.createClass( {
 		if ( event.keyCode === 13 ) {
 			event.preventDefault();
 			this.props.onAddSubmit( inputValue );
+			React.findDOMNode( this.refs.menuAddInput ).value = '';
 		}
 	},
 
