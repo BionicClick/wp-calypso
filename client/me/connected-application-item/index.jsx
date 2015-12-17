@@ -224,7 +224,10 @@ module.exports = React.createClass( {
 					</div>
 
 					<div className="connected-application-item__disconnect">
-						<Button compact scary onClick={ this.disconnect }>{ this.translate( 'Disconnect' ) }</Button>
+						{ this.props.isPlaceholder
+							? <Button compact disabled>{ this.translate( 'Loading…' ) }</Button>
+							: <Button compact scary onClick={ this.disconnect }>{ this.translate( 'Disconnect' ) }</Button> }
+
 					</div>
 
 				</div>
