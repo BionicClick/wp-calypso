@@ -9,7 +9,10 @@ var React = require( 'react' ),
  */
 var formBase = require( './form-base' ),
 	protectForm = require( 'lib/mixins/protect-form' ),
-	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' );
+	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' ),
+	Card = require( 'components/card' ),
+	Button = require( 'components/button' ),
+	SectionHeader = require( 'components/section-header' );
 
 module.exports = React.createClass( {
 
@@ -450,25 +453,23 @@ module.exports = React.createClass( {
 		return (
 
 			<form id="site-settings" onSubmit={ this.submitForm } onChange={ this.markChanged }>
-				<button
-					type="submit"
-					className="button is-primary"
-					disabled={ this.state.fetchingSettings || this.state.submittingForm }
-				>
-					{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
-				</button>
-				{ this.defaultArticleSettings() }
-				{ this.otherCommentSettings() }
-				{ this.emailMeSettings() }
-				{ this.beforeCommentSettings() }
-				{ this.commentModerationSettings() }
-				{ this.commentBlacklistSettings() }
-				<button
-					type="submit"
-					className="button is-primary"
-					disabled={ this.state.fetchingSettings || this.state.submittingForm } >
+				<SectionHeader label={ this.translate( 'Discussion Settings' ) }>
+					<Button
+						primary
+						compact
+						disabled={ this.state.fetchingSettings || this.state.submittingForm }
+						onClick={ this.submitForm }>
 						{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
-				</button>
+					</Button>
+				</SectionHeader>
+				<Card className="discussion-settings">
+					{ this.defaultArticleSettings() }
+					{ this.otherCommentSettings() }
+					{ this.emailMeSettings() }
+					{ this.beforeCommentSettings() }
+					{ this.commentModerationSettings() }
+					{ this.commentBlacklistSettings() }
+				</Card>
 			</form>
 		);
 	}
