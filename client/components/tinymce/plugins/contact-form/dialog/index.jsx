@@ -8,9 +8,13 @@ import React, { PropTypes } from 'react';
  */
 import Shortcode from 'lib/shortcode';
 import Dialog from 'components/dialog';
+import SectionNav from 'components/section-nav';
+import SectionNavTabs from 'components/section-nav/tabs';
+import SectionNavTabItem from 'components/section-nav/item';
+import SortableList from 'components/forms/sortable-list';
 import FormFieldset from 'components/forms/form-fieldset';
-import FormLabel from 'components/forms/form-label';
 import FormButton from 'components/forms/form-button';
+import Field from './field';
 
 /**
  * object constants
@@ -43,6 +47,12 @@ export default React.createClass( {
 		showDialog: PropTypes.bool.isRequired
 	},
 
+	getInitialState() {
+		return {
+			tokens: Object.freeze( [ 'first item', 'second item' ] )
+		};
+	},
+
 	render() {
 		const buttons = [
 			<FormButton
@@ -71,18 +81,39 @@ export default React.createClass( {
 					} );
 
 					this.props.onInsertMedia( shortcode );
-				} }
-			>
+				} } >
 				{ this.translate( 'Save' ) }
 			</FormButton>,
 			<FormButton
 				key="cancel"
 				isPrimary={ false }
-				onClick={ this.props.onClose }
-			>
+				onClick={ this.props.onClose } >
 				{ this.translate( 'Cancel' ) }
 			</FormButton>
 		];
+
+		// const sortables = () => (
+		// 	<SortableList direction="vertical">
+		// 		<FoldableCard
+		// 			header={ 'Name' }
+		// 			summary={ <FormButton scary={ true }>Remove</FormButton> }
+		// 			expandedSummary={ <FormButton scary={ true }>Remove</FormButton> } >
+		// 			<p>Name</p>
+		// 		</FoldableCard>
+		// 		<FoldableCard
+		// 			header={ 'Email' }
+		// 			summary={ <FormButton scary={ true }>Remove</FormButton> }
+		// 			expandedSummary={ <FormButton scary={ true }>Remove</FormButton> } >
+		// 			<p>Name</p>
+		// 		</FoldableCard>
+		// 		<FoldableCard
+		// 			header={ 'Message' }
+		// 			summary={ <FormButton scary={ true }>Remove</FormButton> }
+		// 			expandedSummary={ <FormButton scary={ true }>Remove</FormButton> } >
+		// 			<p>Name</p>
+		// 		</FoldableCard>
+		// 	</SortableList>
+		// );
 
 		return (
 			<Dialog
@@ -91,11 +122,18 @@ export default React.createClass( {
 				buttons={ buttons }
 				additionalClassNames="contact-form__dialog"
 			>
-				<FormFieldset>
-					<FormLabel>
-						<span>Here be dragons. Click Save to add a generic contact form...</span>
-					</FormLabel>
-				</FormFieldset>
+				<SectionNav selectedText="Form Fields">
+					<SectionNavTabs>
+						<SectionNavTabItem selected={ true }>Form Fields</SectionNavTabItem>
+						<SectionNavTabItem>Settings</SectionNavTabItem>
+					</SectionNavTabs>
+				</SectionNav>
+				<div className="contact-form__form-fields">
+					<Field />
+					<FormFieldset>
+						<FormButton key="add">Add  New Field</FormButton>
+					</FormFieldset>
+				</div>
 			</Dialog>
 		);
 	}
