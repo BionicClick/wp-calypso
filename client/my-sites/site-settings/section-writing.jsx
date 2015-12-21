@@ -20,9 +20,9 @@ module.exports = React.createClass( {
 	render: function() {
 
 		return (
-			<Card className="writing-settings">
-				<WritingForm site={ this.props.site } />
-			</Card>
+
+			<WritingForm site={ this.props.site } />
+
 		);
 
 	}
