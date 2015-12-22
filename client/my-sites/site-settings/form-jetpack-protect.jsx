@@ -66,14 +66,6 @@ module.exports = React.createClass( {
 						"When you activate Jetpack Protect, we'll automatically prevent malicious attempts to log into your site, but allow you to ensure you can always log in."
 					) }
 				</p>
-				<SettingsCardFooter>
-					<FormButton
-						onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }
-						disabled={ this.disableForm() }
-					>
-						{ this.state.togglingModule ? this.translate( 'Activating…' ) : this.translate( 'Activate Protect' ) }
-					</FormButton>
-				</SettingsCardFooter>
 			</div>
 		);
 	},
@@ -126,26 +118,51 @@ module.exports = React.createClass( {
 		return this.state.fetchingSettings || this.state.submittingForm || this.props.site.fetchingModules || this.state.togglingModule;
 	},
 
+	deactivateFormButtons: function() {
+		return(
+			<div>
+				<Button
+					compact
+					disabled={ this.disableForm() }
+					className="jetpack-protect__deactivate"
+					onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }
+					>
+					{ this.state.togglingModule ? this.translate( 'Deactivating…' ) : this.translate( 'Deactivate' ) }
+				</Button>
+				<Button
+					disabled={ this.disableForm() }
+					compact
+					primary
+					onClick={ this.submitForm }
+					>
+					{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
+				</Button>
+			</div>
+		);
+	},
+
+	activateFormButtons: function() {
+		return(
+			<Button
+				onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }
+				disabled={ this.disableForm() }
+				primary
+				compact
+				>
+				{ this.state.togglingModule ? this.translate( 'Activating…' ) : this.translate( 'Activate Protect' ) }
+			</Button>
+		);
+	},
+
 	render: function() {
 		return (
 			<div>
 				<SectionHeader label={ this.translate( 'Jetpack Protect' ) }>
-					<Button
-						compact
-						disabled={ this.disableForm() }
-						className="jetpack-protect__deactivate"
-						onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }
-						>
-						{ this.state.togglingModule ? this.translate( 'Deactivating…' ) : this.translate( 'Deactivate' ) }
-					</Button>
-					<Button
-						disabled={ this.disableForm() }
-						compact
-						primary
-						onClick={ this.submitForm }
-						>
-						{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
-					</Button>
+					{ this.state.enabled
+						? this.deactivateFormButtons()
+						: this.activateFormButtons()
+
+					}
 				</SectionHeader>
 				<Card className="jetpack-protect-settings">
 					{
