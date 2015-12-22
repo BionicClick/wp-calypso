@@ -17,7 +17,9 @@ var formBase = require( './form-base' ),
 	FormTextarea = require( 'components/forms/form-textarea' ),
 	FormButton = require( 'components/forms/form-button' ),
 	SettingsCardFooter = require( './settings-card-footer' ),
-	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' );
+	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' ),
+	SectionHeader = require( 'components/section-header' ),
+	Button = require( 'components/button' );
 
 module.exports = React.createClass( {
 
@@ -110,18 +112,6 @@ module.exports = React.createClass( {
 				<FormSettingExplanation>
 						{ this.translate( 'IPv4 and IPv6 are acceptable. To specify a range, enter the low value and high value separated by a dash.' ) }
 				</FormSettingExplanation>
-				<SettingsCardFooter>
-					<FormButton disabled={ this.disableForm() }>
-						{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
-					</FormButton>
-					<FormButton
-						disabled={ this.disableForm() }
-						className="jetpack-protect__deactivate is-link"
-						isPrimary={ false }
-						onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }>
-						{ this.state.togglingModule ? this.translate( 'Deactivating…' ) : this.translate( 'Deactivate' ) }
-					</FormButton>
-				</SettingsCardFooter>
 			</form>
 		);
 	},
@@ -138,15 +128,33 @@ module.exports = React.createClass( {
 
 	render: function() {
 		return (
-			<Card className="jetpack-protect-settings">
-				<FormSectionHeading>{ this.translate( 'Jetpack Protect' ) }</FormSectionHeading>
-				{
-					( this.state.enabled ) ?
-					this.settings() :
-					this.prompt()
-				}
-			</Card>
+			<div>
+				<SectionHeader label={ this.translate( 'Jetpack Protect' ) }>
+					<Button
+						compact
+						disabled={ this.disableForm() }
+						className="jetpack-protect__deactivate"
+						onClick={ this.toggleJetpackModule.bind( this, 'protect' ) }
+						>
+						{ this.state.togglingModule ? this.translate( 'Deactivating…' ) : this.translate( 'Deactivate' ) }
+					</Button>
+					<Button
+						disabled={ this.disableForm() }
+						compact
+						primary
+						onClick={ this.submitForm }
+						>
+						{ this.state.submittingForm ? this.translate( 'Saving…' ) : this.translate( 'Save Settings' ) }
+					</Button>
+				</SectionHeader>
+				<Card className="jetpack-protect-settings">
+					{
+						( this.state.enabled ) ?
+						this.settings() :
+						this.prompt()
+					}
+				</Card>
+			</div>
 		);
 	}
 } );
-

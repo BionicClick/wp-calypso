@@ -21,7 +21,9 @@ var formBase = require( 'my-sites/site-settings/form-base' ),
 	ProgressIndicator = require( 'components/progress-indicator' ),
 	FormInputValidation = require( 'components/forms/form-input-validation' ),
 	notices = require( 'notices' ),
-	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' );
+	dirtyLinkedState = require( 'lib/mixins/dirty-linked-state' ),
+	SectionHeader = require( 'components/section-header' ),
+	Button = require( 'components/button' );
 
 module.exports = React.createClass( {
 
@@ -139,14 +141,6 @@ module.exports = React.createClass( {
 			<div>
 				<p>{ this.translate( 'Scan your WordPress site for known security threats.' ) }</p>
 				<p>{ this.translate( 'By allowing Jetpack Scan to access your site via SSH, you enable us to scan your server for security threats. As soon as we encounter potentially malicious code, we will alert you by email.' ) }</p>
-				<SettingsCardFooter>
-					<FormButton
-						onClick={ this.toggleScan }
-						disabled={ this.disableForm() }
-					>
-						{ this.state.togglingModule ? this.translate( 'Activating…' ) : this.translate( 'Activate Scan' ) }
-					</FormButton>
-				</SettingsCardFooter>
 			</div>
 		);
 	},
@@ -474,13 +468,25 @@ module.exports = React.createClass( {
 
 	render: function() {
 		return (
-			<Card className="jetpack-protect-settings">
-				<FormSectionHeading>{ this.translate( 'Jetpack Scan' ) }</FormSectionHeading>
-				{ this.sshConnectionError() }
-				{ this.sshCredentialsForm() }
-				{ this.publicKeyDialog() }
-				{ this.prompt() }
-			</Card>
+			<div>
+				<SectionHeader label={ this.translate( 'Jetpack Scan' ) }>
+					<Button
+						compact
+						primary
+						disabled={ this.disableForm() }
+						onClick={ this.toggleScan }
+						>
+						{ this.state.togglingModule ? this.translate( 'Activating…' ) : this.translate( 'Activate Scan' ) }
+					</Button>
+				</SectionHeader>
+				<Card className="jetpack-protect-settings">
+					{ this.sshConnectionError() }
+					{ this.sshCredentialsForm() }
+					{ this.publicKeyDialog() }
+					{ this.prompt() }
+				</Card>
+			</div>
+
 		);
 	}
 } );
