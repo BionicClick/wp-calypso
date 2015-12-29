@@ -69,6 +69,7 @@ function renderSinglePlugin( context, siteUrl, isWpcomPlugin ) {
 			prevPath: lastPluginsListVisited || context.prevPath,
 			prevQuerystring: lastPluginsQuerystring,
 			sites: sites,
+			store: context.store,
 			pluginSlug: pluginSlug,
 			siteUrl: siteUrl,
 			isWpcomPlugin: isWpcomPlugin,
@@ -100,6 +101,7 @@ function renderPluginList( context, basePath, siteUrl ) {
 		React.createElement( PluginListComponent, {
 			path: basePath,
 			context: context,
+			store: context.store,
 			filter: context.params.pluginFilter,
 			sites: sites,
 			search: search
