@@ -3,18 +3,23 @@
  */
 import tinymce from 'tinymce/tinymce';
 import i18n from 'lib/mixins/i18n';
-import ReactDom from 'react-dom';
-import ReactDomServer from 'react-dom/server';
-import React from 'react';
-
+import React, { createElement } from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 /**
  * Internal Dependencies
  */
 import Gridicon from 'components/gridicon';
 import ContactFormDialog from './dialog';
+import reducer from './state/reducer';
+import { initContactForm, addDefaultField, removeField } from './state/actions';
+import { serialize, deserialize } from './shortcode-utils';
 
-const contactForm = editor => {
+const wpcomContactForm = editor => {
 	let node;
+	let store = createStore( reducer );
 
 	editor.on( 'init', () => {
 		node = editor.getContainer().appendChild(
@@ -23,26 +28,37 @@ const contactForm = editor => {
 	} );
 
 	editor.on( 'remove', () => {
-		ReactDom.unmountComponentAtNode( node );
+		unmountComponentAtNode( node );
 		node.parentNode.removeChild( node );
 		node = null;
 	} );
 
-	editor.addCommand( 'WP_ContactForm', () => {
+	editor.addCommand( 'wpcomContactForm', content => {
+		store.dispatch( initContactForm( deserialize( content ) ) );
+
 		function onClose() {
 			editor.focus();
 			renderModal( 'hide' );
 		};
 
 		function renderModal( visibility = 'show' ) {
-			ReactDom.render(
-				React.createElement( ContactFormDialog, {
-					showDialog: visibility === 'show',
-					onClose,
-					onInsertMedia( markup ) {
-						editor.execCommand( 'mceInsertContent', false, markup );
-					}
-				} ),
+			render(
+				createElement( Provider, { store },
+					createElement( ContactFormDialog, {
+						showDialog: visibility === 'show',
+						onAdd() {
+							store.dispatch( addDefaultField() )
+						},
+						onRemove( index ) {
+							store.dispatch( removeField( index ) );
+						},
+						onClose,
+						onSave() {
+							//get contact form from state to save
+							editor.execCommand( 'mceInsertContent', false, serialize( store.getState() ) );
+						}
+					} )
+				),
 				node
 			);
 		};
@@ -53,11 +69,11 @@ const contactForm = editor => {
 	editor.addButton( 'wpcom_add_contact_form', {
 		classes: 'btn wpcom-button contact-form',
 		title: i18n.translate( 'Add Contact Form' ),
-		cmd: 'WP_ContactForm',
+		cmd: 'wpcomContactForm',
 		onPostRender() {
-			this.innerHtml( ReactDomServer.renderToStaticMarkup(
+			this.innerHtml( renderToStaticMarkup(
 				<button type="button" role="presentation">
-					<Gridicon icon="grid" size={ 20 } />
+					<Gridicon icon="grid" size={ 18 } />
 				</button>
 			) );
 		}
@@ -65,5 +81,5 @@ const contactForm = editor => {
 };
 
 export default () => {
-	tinymce.PluginManager.add( 'wpcom/contactform', contactForm );
+	tinymce.PluginManager.add( 'wpcom/contactform', wpcomContactForm );
 }
