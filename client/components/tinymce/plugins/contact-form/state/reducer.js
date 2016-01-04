@@ -15,7 +15,7 @@ export default function( state = CONTACT_FORM_DEFAULT, action ) {
 			} );
 			break;
 		case CONTACT_FORM_REMOVE_FIELD:
-			let { index } = action;
+			const { index } = action;
 			state.fields.splice( index, 1 );
 			state = Object.assign( {}, state );
 			break;
