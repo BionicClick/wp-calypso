@@ -1,15 +1,15 @@
 /**
  * External Dependencies
  */
-const React = require( 'react' ),
-	classNames = require( 'classnames' );
+import React from 'react';
+import classNames from 'classnames';
 
 /**
  * Internal Dependencies
  */
-const Gridicon = require( 'components/gridicon' ),
-	Button = require( 'components/button' ),
-	Count = require( 'components/count' );
+import Gridicon from 'components/gridicon';
+import Button from 'components/button';
+import Count from 'components/count';
 
 const SidebarMenu = React.createClass( {
 
@@ -70,22 +70,24 @@ const SidebarMenu = React.createClass( {
 	},
 
 	toggleAdd: function() {
+		this.refs.menuAddInput.focus();
 		this.setState( { isAdding: ! this.state.isAdding } );
 	},
 
-	handleAddKeyDown: function() {
-		var inputValue = React.findDOMNode( this.refs.menuAddInput ).value;
-		if ( event.keyCode === 13 ) {
+	handleAddKeyDown: function( event ) {
+		const inputValue = this.refs.menuAddInput.value;
+		if ( event.keyCode === 13 && inputValue.length > 0 ) {
 			event.preventDefault();
 			this.props.onAddSubmit( inputValue );
-			React.findDOMNode( this.refs.menuAddInput ).value = '';
+			this.refs.menuAddInput.value = '';
+			this.toggleAdd();
 		}
 	},
 
 	renderAdd: function() {
 		return(
 			<div className="sidebar-menu__add-item">
-				<Button compact className="sidebar-menu__add-button" onClick={ this.toggleAdd }>Add</Button>
+				<Button compact className="sidebar-menu__add-button" onClick={ this.toggleAdd }>{ this.translate( 'Add' ) }</Button>
 
 				<div className="sidebar-menu__add">
 					<input
@@ -123,4 +125,4 @@ const SidebarMenu = React.createClass( {
 	}
 } );
 
-module.exports = SidebarMenu;
+export default SidebarMenu;
