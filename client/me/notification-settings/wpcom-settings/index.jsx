@@ -28,7 +28,8 @@ import { fetchSettings, toggleWPcomEmailSetting, saveSettings } from 'lib/notifi
 const options = {
 	marketing: 'marketing',
 	research: 'research',
-	community: 'community'
+	community: 'community',
+	promotion: 'promotion'
 };
 
 export default React.createClass( {
@@ -92,6 +93,14 @@ export default React.createClass( {
 					<FormLegend>{ this.translate( 'Community' ) }</FormLegend>
 					<FormLabel>
 						<FormCheckbox checked={ this.state.settings.get( options.community ) } onChange={ this.toggleSetting.bind( this, options.community ) }/>
+						<span>{ this.translate( 'Information on WordPress.com courses and events (online & in-person).' ) }</span>
+					</FormLabel>
+				</FormFieldset>
+
+				<FormFieldset>
+					<FormLegend>{ this.translate( 'Promotion' ) }</FormLegend>
+					<FormLabel>
+						<FormCheckbox checked={ this.state.settings.get( options.promotion ) } onChange={ this.toggleSetting.bind( this, options.promotion ) }/>
 						<span>{ this.translate( 'Information on WordPress.com courses and events (online & in-person).' ) }</span>
 					</FormLabel>
 				</FormFieldset>
