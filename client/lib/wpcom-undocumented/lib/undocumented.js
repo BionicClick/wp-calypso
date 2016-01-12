@@ -1783,6 +1783,15 @@ Undocumented.prototype.cancelPrivateRegistration = function( purchaseId, fn ) {
 	}, fn );
 };
 
+Undocumented.prototype.cancelPlanTrial = function( planId, fn ) {
+	debug( '/upgrades/{planId}/cancel-plan-trial' );
+
+	this._sendRequestWithLocale( {
+		path: `/upgrades/${planId}/cancel-plan-trial`,
+		method: 'post'
+	}, fn );
+};
+
 Undocumented.prototype.submitKayakoTicket = function( subject, message, locale, fn ) {
 	debug( 'submitKayakoTicket' );
 
