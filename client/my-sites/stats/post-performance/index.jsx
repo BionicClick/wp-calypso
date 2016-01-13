@@ -11,6 +11,7 @@ var React = require( 'react' ),
 var Card = require( 'components/card' ),
 	PostListStore = require( 'lib/posts/post-list-store-factory' )(),
 	PostStatsStore = require( 'lib/post-stats/store' ),
+	StatsTabs = require( '../stats-tabs' ),
 	Emojify = require( 'components/emojify' ),
 	actions = require( 'lib/posts/actions' ),
 	Gridicon = require( 'components/gridicon' );
@@ -116,7 +117,7 @@ module.exports = React.createClass( {
 		return tabs.map( function( tabOptions, index ) {
 			var valueClass = classNames( 'value', { 'is-low': tabOptions.value === 0 } ),
 				wrapperClass = classNames( {
-					'module-tab': true,
+					'stats-tab': true,
 					'is-post-summary': true,
 					'is-loading': isLoading
 				} ),
@@ -199,9 +200,9 @@ module.exports = React.createClass( {
 						) : null
 					}
 				</div>
-				<ul className="module-tabs">
+				<StatsTabs>
 					{ this.buildTabs( summaryUrl ) }
-				</ul>
+				</StatsTabs>
 			</Card>
 		);
 	}
