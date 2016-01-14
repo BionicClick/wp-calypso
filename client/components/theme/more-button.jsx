@@ -92,17 +92,18 @@ var ThemeMoreButton = React.createClass( {
 						if ( option.separator ) {
 							return ( <hr key={ 'separator-' + key } className="popover__hr" /> );
 						}
-						if ( option.url ) {
+						if ( option.getUrl ) {
+							const url = option.getUrl( this.props.theme );
 							return (
 								<a className="theme__more-button-menu-item popover__menu-item"
 									onMouseOver={ this.focus }
 									key={ option.label }
-									href={ option.url }
-									target={ ( isOutsideCalypso( option.url ) &&
+									href={ url }
+									target={ ( isOutsideCalypso( url ) &&
 										// We don't want to open a new tab for the signup flow
 										// TODO: Remove this hack once we can just hand over
 										// to Calypso's signup flow with a theme selected.
-										option.url !== getSignupUrl( this.props.theme ) )
+										url !== getSignupUrl( this.props.theme ) )
 										? '_blank' : null }>
 									{ option.label }
 								</a>

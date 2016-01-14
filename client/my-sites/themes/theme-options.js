@@ -5,6 +5,7 @@ import titleCase from 'to-title-case';
 import assign from 'lodash/object/assign';
 import mapValues from 'lodash/object/mapValues';
 import pick from 'lodash/object/pick';
+import partial from 'lodash/function/partial';
 
 /**
  * Internal dependencies
@@ -78,7 +79,7 @@ export function getButtonOptions( site, theme, isLoggedOut, actions, setSelected
 		const getUrl = Helper[ methodName ];
 
 		return assign( {}, option, {
-			url: getUrl( theme, site )
+			getUrl: partial( getUrl, partial.placeholder, site )
 		} );
 	}
 
