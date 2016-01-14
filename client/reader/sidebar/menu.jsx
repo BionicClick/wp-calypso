@@ -105,7 +105,7 @@ const ExpandableSidebarMenu = React.createClass( {
 
 	render: function() {
 		const classes = classNames(
-			'sidebar-menu',
+			'sidebar__menu',
 			this.props.className,
 			{
 				'is-add-open': this.state.isAdding,
