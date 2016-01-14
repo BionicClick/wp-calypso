@@ -6,7 +6,6 @@ const assign = require( 'lodash/object/assign' ),
 	map = require( 'lodash/collection/map' ),
 	some = require( 'lodash/collection/some' ),
 	startsWith = require( 'lodash/string/startsWith' ),
-	ReactDom = require( 'react-dom' ),
 	React = require( 'react' ),
 	page = require( 'page' ),
 	url = require( 'url' ),
@@ -262,25 +261,7 @@ module.exports = React.createClass( {
 		}, this );
 	},
 
-	getFollowingEditLink: function() {
-		var followingEditUrl = '/following/edit',
-			followingEditRel;
-
-		// If Calypso following/edit isn't yet enabled, use the Atlas version
-		if ( ! config.isEnabled( 'reader/following-edit' ) ) {
-			followingEditUrl = 'https://wordpress.com'.concat( followingEditUrl );
-			followingEditRel = 'external';
-		}
-
-		return {
-			url: followingEditUrl,
-			rel: followingEditRel
-		};
-	},
-
 	render: function() {
-		let followingEditLink = this.getFollowingEditLink();
-
 		const tagCount = this.state.tags ? this.state.tags.length : 0,
 			listCount = this.state.lists ? this.state.lists.length : 0;
 
@@ -355,7 +336,7 @@ module.exports = React.createClass( {
 					{ this.renderTags() }
 
 				</ExpandableSidebarMenu>
-			</ul>
+			</Sidebar>
 		);
 	}
 } );
