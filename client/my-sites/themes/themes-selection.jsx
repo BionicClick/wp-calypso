@@ -26,7 +26,13 @@ const ThemesSelection = React.createClass( {
 		siteId: PropTypes.string,
 		search: PropTypes.string,
 		togglePreview: PropTypes.func.isRequired,
-		getOptions: PropTypes.func.isRequired,
+		options: React.PropTypes.objectOf( {
+			label: React.PropTypes.string,
+			header: React.PropTypes.string,
+			action: React.PropTypes.func,
+			getUrl: React.PropTypes.func,
+			hideForTheme: React.PropTypes.func
+		} ),
 		customize: PropTypes.func.isRequired,
 		queryParams: PropTypes.object.isRequired,
 		themesList: PropTypes.array.isRequired
@@ -103,7 +109,7 @@ const ThemesSelection = React.createClass( {
 						tier={ this.state.tier }
 						onRealScroll={ this.trackScrollPage }
 						onLastPage={ this.trackLastPage } >
-					<ThemesList getButtonOptions={ this.props.getOptions.bind( null, site ) }
+					<ThemesList buttonOptions={ this.props.options }
 						onMoreButtonClick={ this.onMoreButtonClick }
 						onScreenshotClick={ this.onScreenshotClick }
 						getScreenshotUrl={ site ? partialRight( Helper.getPreviewUrl, site ) : null } />

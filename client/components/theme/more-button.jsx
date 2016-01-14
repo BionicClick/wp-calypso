@@ -44,7 +44,9 @@ var ThemeMoreButton = React.createClass( {
 		options: React.PropTypes.objectOf(
 			React.PropTypes.shape( {
 				label: React.PropTypes.string,
+				header: React.PropTypes.string,
 				action: React.PropTypes.func,
+				getUrl: React.PropTypes.func
 			} )
 		).isRequired,
 		active: React.PropTypes.bool

@@ -3,7 +3,6 @@
  */
 var React = require( 'react' ),
 	bindActionCreators = require( 'redux' ).bindActionCreators,
-	partialRight = require( 'lodash/function/partialRight' ),
 	connect = require( 'react-redux' ).connect;
 
 /**
@@ -159,7 +158,7 @@ var Themes = React.createClass( {
 						siteId={ this.props.siteId }
 						selectedSite={ site }
 						togglePreview={ this.togglePreview }
-						getOptions={ partialRight( getButtonOptions, this.isLoggedOut(), bindActionCreators( Action, dispatch ), this.setSelectedTheme, this.togglePreview, false ) }
+						options={ getButtonOptions( site, this.isLoggedOut(), bindActionCreators( Action, dispatch ), this.setSelectedTheme, this.togglePreview ) }
 						trackScrollPage={ this.props.trackScrollPage }
 						tier={ this.props.tier }
 						customize={ bindActionCreators( Action.customize, dispatch ) }

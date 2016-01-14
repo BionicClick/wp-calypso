@@ -51,7 +51,9 @@ var Theme = React.createClass( {
 		buttonContents: React.PropTypes.objectOf(
 			React.PropTypes.shape( {
 				label: React.PropTypes.string,
+				header: React.PropTypes.string,
 				action: React.PropTypes.func,
+				getUrl: React.PropTypes.func
 			} )
 		),
 		// Index of theme in results list

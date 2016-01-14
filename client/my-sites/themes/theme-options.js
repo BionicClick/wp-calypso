@@ -50,7 +50,7 @@ const buttonOptions = {
 	},
 };
 
-export function getButtonOptions( site, theme, isLoggedOut, actions, setSelectedTheme, togglePreview ) {
+export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, togglePreview ) {
 	let options = pick( buttonOptions, option => ! ( option.hideForSite && option.hideForSite( site, isLoggedOut ) ) );
 	options = mapValues( options, appendLabelAndHeader );
 	options = mapValues( options, appendUrl );
