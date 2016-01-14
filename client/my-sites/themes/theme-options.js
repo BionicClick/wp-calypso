@@ -16,24 +16,27 @@ import actionLabels from './action-labels';
 const buttonOptions = {
 	signup: {
 		hasUrl: true,
-		isHidden: ( site, theme, isLoggedOut ) => ! isLoggedOut
+		hideForSite: ( site, isLoggedOut ) => ! isLoggedOut
 	},
 	preview: {
 		hasAction: true,
 		hasUrl: false,
-		isHidden: ( site, theme ) => theme.active
+		hideForTheme: theme => theme.active
 	},
 	purchase: {
 		hasAction: true,
-		isHidden: ( site, theme, isLoggedOut ) => isLoggedOut || theme.active || theme.purchased || ! theme.price
+		hideForSite: ( site, isLoggedOut ) => isLoggedOut,
+		hideForTheme: theme => theme.active || theme.purchased || ! theme.price
 	},
 	activate: {
 		hasAction: true,
-		isHidden: ( site, theme, isLoggedOut ) => isLoggedOut || theme.active || ( theme.price && ! theme.purchased )
+		hideForSite: ( site, isLoggedOut ) => isLoggedOut,
+		hideForTheme: theme => theme.active || ( theme.price && ! theme.purchased )
 	},
 	customize: {
 		hasAction: true,
-		isHidden: ( site, theme ) => ! theme.active || ( site && ! site.isCustomizable() )
+		hideForSite: ( site, isLoggedOut ) => isLoggedOut && ( site && ! site.isCustomizable() ),
+		hideForTheme: theme => ! theme.active
 	},
 	separator: {
 		separator: true
@@ -43,12 +46,12 @@ const buttonOptions = {
 	},
 	support: {
 		hasUrl: true,
-		isHidden: site => site && site.jetpack // We don't know where support docs for a given theme on a self-hosted WP install are.
+		hideForSite: site => site && site.jetpack // We don't know where support docs for a given theme on a self-hosted WP install are.
 	},
 };
 
 export function getButtonOptions( site, theme, isLoggedOut, actions, setSelectedTheme, togglePreview ) {
-	let options = pick( buttonOptions, option => ! ( option.isHidden && option.isHidden( site, theme, isLoggedOut ) ) );
+	let options = pick( buttonOptions, option => ! ( option.hideForSite && option.hideForSite( site, isLoggedOut ) ) );
 	options = mapValues( options, appendLabelAndHeader );
 	options = mapValues( options, appendUrl );
 	options = mapValues( options, appendAction );

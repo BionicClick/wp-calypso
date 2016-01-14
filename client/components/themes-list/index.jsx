@@ -3,7 +3,8 @@
  */
 var React = require( 'react' ),
 	times = require( 'lodash/utility/times' ),
-	isEqual = require( 'lodash/lang/isEqual' );
+	isEqual = require( 'lodash/lang/isEqual' ),
+	pick = require( 'lodash/object/pick' );
 
 /**
  * Internal dependencies
@@ -51,9 +52,14 @@ var ThemesList = React.createClass( {
 	},
 
 	renderTheme: function( theme, index ) {
+		const buttonOptions = pick(
+			this.props.getButtonOptions( theme ),
+			option => ! ( option.hideForTheme && option.hideForTheme( theme ) )
+		);
+
 		return <Theme
 			key={ 'theme-' + theme.id }
-			buttonContents={ this.props.getButtonOptions( theme ) }
+			buttonContents={ buttonOptions }
 			screenshotClickUrl={ this.props.getScreenshotUrl && this.props.getScreenshotUrl( theme ) }
 			onScreenshotClick={ this.props.onScreenshotClick }
 			onMoreButtonClick={ this.props.onMoreButtonClick }
