@@ -63,7 +63,7 @@ var ThemeMoreButton = React.createClass( {
 
 	closePopover: function( action ) {
 		this.setState( { showPopover: false } );
-		isFunction( action ) && action();
+		isFunction( action ) && action( this.props.theme );
 	},
 
 	focus: function( event ) {

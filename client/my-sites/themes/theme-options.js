@@ -92,11 +92,11 @@ export function getButtonOptions( site, theme, isLoggedOut, actions, setSelected
 
 		let action;
 		if ( name === 'preview' ) {
-			action = togglePreview.bind( null, theme );
+			action = togglePreview;
 		} else if ( site ) {
-			action = actions[ name ].bind( actions, theme, site, 'showcase' );
+			action = partial( actions[ name ], partial.placeholder, site, 'showcase' );
 		} else {
-			action = setSelectedTheme.bind( null, name, theme );
+			action = setSelectedTheme.bind( null, name );
 		}
 
 		return assign( {}, option, {
@@ -105,8 +105,8 @@ export function getButtonOptions( site, theme, isLoggedOut, actions, setSelected
 	}
 
 	function trackedAction( action, name ) {
-		return () => {
-			action();
+		return t => {
+			action( t );
 			Helper.trackClick( 'more button', name );
 		};
 	}
