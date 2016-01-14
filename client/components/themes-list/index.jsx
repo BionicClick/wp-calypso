@@ -58,12 +58,12 @@ var ThemesList = React.createClass( {
 			onScreenshotClick={ this.props.onScreenshotClick }
 			onMoreButtonClick={ this.props.onMoreButtonClick }
 			index={ index }
-			{ ...theme } />;
+			theme={ theme } />;
 	},
 
 	renderLoadingPlaceholders: function() {
 		return times( PER_PAGE, function( i ) {
-			return <Theme key={ 'placeholder-' + i } id={ 'placeholder-' + i } name="Loading…" isPlaceholder={ true } />;
+			return <Theme key={ 'placeholder-' + i } theme={ { id: 'placeholder-' + i, name: 'Loading…' } } isPlaceholder={ true } />;
 		} );
 	},
 

@@ -20,9 +20,25 @@ var PopoverMenu = require( 'components/popover/menu' ),
  */
 var ThemeMoreButton = React.createClass( {
 	propTypes: {
-		// Theme ID (theme-slug)
-		id: React.PropTypes.string.isRequired,
-		// Index of theme in results list, if any
+		theme: React.PropTypes.shape( {
+			// Theme ID (theme-slug)
+			id: React.PropTypes.string.isRequired,
+			// Theme name
+			name: React.PropTypes.string.isRequired,
+			// Theme screenshot URL
+			screenshot: React.PropTypes.string,
+			// Theme price (pre-formatted string) -- empty string indicates free theme
+			price: React.PropTypes.string,
+			// If true, the user has 'purchased' the theme
+			purchased: React.PropTypes.bool,
+			// If true, highlight this theme as active
+			active: React.PropTypes.bool,
+			author: React.PropTypes.string,
+			author_uri: React.PropTypes.string,
+			demo_uri: React.PropTypes.string,
+			stylesheet: React.PropTypes.string
+		} ),
+		// Index of theme in results list
 		index: React.PropTypes.number,
 		// Options to populate the popover menu with
 		options: React.PropTypes.objectOf(
@@ -42,7 +58,7 @@ var ThemeMoreButton = React.createClass( {
 
 	togglePopover: function() {
 		this.setState( { showPopover: ! this.state.showPopover } );
-		! this.state.showPopover && this.props.onClick( this.props.id, this.props.index );
+		! this.state.showPopover && this.props.onClick( this.props.theme.id, this.props.index );
 	},
 
 	closePopover: function( action ) {
@@ -57,7 +73,7 @@ var ThemeMoreButton = React.createClass( {
 	render: function() {
 		var classes = classNames(
 			'theme__more-button',
-			{ 'is-active': this.props.active },
+			{ 'is-active': this.props.theme.active },
 			{ 'is-open': this.state.showPopover }
 		);
 
@@ -86,7 +102,7 @@ var ThemeMoreButton = React.createClass( {
 										// We don't want to open a new tab for the signup flow
 										// TODO: Remove this hack once we can just hand over
 										// to Calypso's signup flow with a theme selected.
-										option.url !== getSignupUrl( { id: this.props.id } ) )
+										option.url !== getSignupUrl( this.props.theme ) )
 										? '_blank' : null }>
 									{ option.label }
 								</a>
