@@ -396,7 +396,7 @@ $color-print: #f8f8f8;
 
 .sharing-service.is-placeholder .sharing-service__name,
 .sharing-service.is-placeholder .sharing-service__description {
-	margin-left: 97px;
+	margin-left: 64px;
 
 	@include breakpoint( "<660px" ) {
 		margin-left: 65px;
