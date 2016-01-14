@@ -53,4 +53,12 @@ module.exports = {
 		},
 		defaultVariation: 'notOffered'
 	},
+	plansUpgradeButton: {
+		datestamp: '20040114', // TODO BEFORE MERGING: update this to the current date
+		variations: {
+			original: 50,
+			button: 50
+		},
+		defaultVariation: 'original'
+	}
 };
