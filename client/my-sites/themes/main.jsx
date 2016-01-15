@@ -148,11 +148,9 @@ var Themes = React.createClass( {
 						<Button primary onClick={ this.setState.bind( this, { showPreview: false },
 							() => {
 								if ( this.isLoggedOut() ) {
-									dispatch( Action.signup( this.state.previewingTheme ) );
-								} else if ( site ) {
-									dispatch( Action.customize( this.state.previewingTheme, site ) );
+									buttonOptions.preview.action( this.state.previewingTheme )
 								} else {
-									this.setSelectedTheme( 'customize', this.state.previewingTheme );
+									buttonOptions.customize.action( this.state.previewingTheme );
 								}
 							} ) } >{ webPreviewButtonText }</Button>
 					</WebPreview>
