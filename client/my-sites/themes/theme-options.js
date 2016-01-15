@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import titleCase from 'to-title-case';
 import assign from 'lodash/object/assign';
 import mapValues from 'lodash/object/mapValues';
 import pick from 'lodash/object/pick';
@@ -16,12 +15,11 @@ import actionLabels from './action-labels';
 export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, togglePreview ) {
 	const buttonOptions = {
 		signup: {
-			hasUrl: true,
+			getUrl: theme => Helper.getSignupUrl( theme ),
 			isHidden: ! isLoggedOut
 		},
 		preview: {
 			hasAction: true,
-			hasUrl: false,
 			hideForTheme: theme => theme.active
 		},
 		purchase: {
@@ -43,17 +41,16 @@ export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, 
 			separator: true
 		},
 		details: {
-			hasUrl: true
+			getUrl: theme => Helper.getDetailsUrl( theme, site ),
 		},
 		support: {
-			hasUrl: true,
+			getUrl: theme => Helper.getSupportUrl( theme, site ),
 			isHidden: site && site.jetpack // We don't know where support docs for a given theme on a self-hosted WP install are.
 		},
 	};
 
 	let options = pick( buttonOptions, option => ! option.isHidden );
 	options = mapValues( options, appendLabelAndHeader );
-	options = mapValues( options, appendUrl );
 	options = mapValues( options, appendAction );
 	return options;
 
@@ -70,21 +67,6 @@ export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, 
 			label, header
 		} );
 	};
-
-	function appendUrl( option, name ) {
-		const { hasUrl } = option;
-
-		if ( ! hasUrl ) {
-			return option;
-		}
-
-		const methodName = `get${ titleCase( name ) }Url`;
-		const getUrl = Helper[ methodName ];
-
-		return assign( {}, option, {
-			getUrl: partial( getUrl, partial.placeholder, site )
-		} );
-	}
 
 	function appendAction( option, name ) {
 		const { hasAction } = option;
