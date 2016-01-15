@@ -32,4 +32,15 @@
 			display: none;
 		}
 	}
+	
+	.plan-feature {
+		@include breakpoint( "<480px" ) {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.plan-feature__heading {
+			margin-right: 10px;
+		}
+	}
 }

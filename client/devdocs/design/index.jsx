@@ -15,16 +15,12 @@ var SearchCard = require( 'components/search-card' ),
 	Buttons = require( 'components/button/docs/example' ),
 	ButtonGroups = require( 'components/button-group/docs/example' ),
 	AddNewButtons = require( 'components/add-new-button/docs/example' ),
-	CommentButtons = require( 'components/comment-button/docs/example' ),
-	LikeButtons = require( 'components/like-button/docs/example' ),
-	FollowButtons = require( 'components/follow-button/docs/example' ),
 	Accordions = require( 'components/accordion/docs/example' ),
 	Gridicons = require( 'components/gridicon/docs/example' ),
+	SocialLogos = require( 'components/social-logo/docs/example' ),
 	SelectDropdown = require( 'components/select-dropdown/docs/example' ),
 	SegmentedControl = require( 'components/segmented-control/docs/example' ),
 	Cards = require( 'components/card/docs/example' ),
-	Sites = require( 'lib/sites-list/docs/example' ),
-	SitesDropdown = require( 'components/sites-dropdown/docs/example' ),
 	TokenFields = require( 'components/token-field/docs/example' ),
 	CountedTextareas = require( 'components/forms/counted-textarea/docs/example' ),
 	ProgressBar = require( 'components/progress-bar/docs/example' ),
@@ -38,8 +34,6 @@ var SearchCard = require( 'components/search-card' ),
 	Spinners = require( 'components/spinner/docs/example' ),
 	Rating = require( 'components/rating/docs/example' ),
 	DatePicker = require( 'components/date-picker/docs/example' ),
-	Theme = require( 'components/theme/docs/example' ),
-	PostSchedule = require( 'components/post-schedule/docs/example' ),
 	InputChrono = require( 'components/input-chrono/docs/example' ),
 	TimezoneDropdown = require( 'components/timezone-dropdown/docs/example' ),
 	ClipboardButtons = require( 'components/forms/clipboard-button/docs/example' ),
@@ -65,7 +59,7 @@ Hider = React.createClass( {
 		hide: React.PropTypes.bool,
 	},
 
-	shouldComponentUpdate: function( nextProps, nextState ) {
+	shouldComponentUpdate: function( nextProps ) {
 		return this.props.hide !== nextProps.hide;
 	},
 
@@ -111,11 +105,11 @@ Collection = React.createClass( {
 
 		examples = this.props.children.map( ( example ) => {
 			return (
-				<Hider hide={ this.shouldWeHide( example ) } key={ "example-" + example.type.displayName }>
+				<Hider hide={ this.shouldWeHide( example ) } key={ 'example-' + example.type.displayName }>
 					{ example }
 				</Hider>
 			);
-		});
+		} );
 
 		return (
 			<div className="collection">
@@ -123,7 +117,6 @@ Collection = React.createClass( {
 				{ examples }
 			</div>
 		);
-
 	}
 } );
 
@@ -182,16 +175,12 @@ module.exports = React.createClass( {
 					<Buttons />
 					<ButtonGroups />
 					<AddNewButtons />
-					<CommentButtons />
 					<Gridicons />
-					<LikeButtons />
-					<FollowButtons />
+					<SocialLogos />
 					<Accordions />
 					<SelectDropdown searchKeywords="menu" />
 					<SegmentedControl />
 					<Cards />
-					<Sites />
-					<SitesDropdown />
 					<TokenFields />
 					<CountedTextareas />
 					<ProgressBar />
@@ -212,8 +201,6 @@ module.exports = React.createClass( {
 					<FeatureGate />
 					<DatePicker />
 					<Spinners />
-					<Theme />
-					<PostSchedule />
 					<InputChrono />
 					<TimezoneDropdown />
 					<FoldableCard />
