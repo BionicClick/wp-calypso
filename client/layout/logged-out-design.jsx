@@ -9,9 +9,11 @@ import React from 'react';
  * Internal dependencies
  */
 import MasterbarLoggedOut from 'layout/masterbar/logged-out';
+import ThemesHead from 'components/themes-head';
 
-const LayoutLoggedOutDesign = () => (
+const LayoutLoggedOutDesign = ( { tier = 'all' } ) => (
 	<div className="wp is-section-design has-no-sidebar">
+		<ThemesHead tier={ tier } />
 		<MasterbarLoggedOut />
 		<div id="content" className="wp-content">
 			<div id="primary" className="wp-primary wp-section" />
@@ -22,5 +24,8 @@ const LayoutLoggedOutDesign = () => (
 )
 
 LayoutLoggedOutDesign.displayName = 'LayoutLoggedOutDesign';
+LayoutLoggedOutDesign.propTypes = {
+	tier: React.PropTypes.string
+}
 
 export default LayoutLoggedOutDesign;
