@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import values from 'lodash/object/values';
 import noop from 'lodash/utility/noop';
@@ -15,12 +16,12 @@ import { Views as ModalViews } from './constants';
 import PopoverMenu from 'components/popover/menu';
 import PopoverMenuItem from 'components/popover/menu-item';
 import Gridicon from 'components/gridicon';
-import { userCan } from 'lib/site/utils';
+import { canUserDeleteItem } from 'lib/media/utils';
+import { getCurrentUser } from 'state/ui/selectors';
 
-export default React.createClass( {
-	displayName: 'MediaModalSecondaryActions',
-
+const MediaModalSecondaryActions = React.createClass( {
 	propTypes: {
+		user: PropTypes.object,
 		site: PropTypes.object,
 		selectedItems: PropTypes.array,
 		activeView: React.PropTypes.oneOf( values( ModalViews ) ),
@@ -62,6 +63,7 @@ export default React.createClass( {
 
 	getButtons() {
 		const {
+			user,
 			site,
 			selectedItems,
 			activeView,
@@ -80,7 +82,11 @@ export default React.createClass( {
 			} );
 		}
 
-		if ( ModalViews.GALLERY !== activeView && selectedItems.length && userCan( 'upload_files', site ) ) {
+		const canDeleteItems = selectedItems.length && ! selectedItems.some( ( item ) => {
+			return ! canUserDeleteItem( item, user, site );
+		} );
+
+		if ( ModalViews.GALLERY !== activeView && canDeleteItems ) {
 			buttons.push( {
 				key: 'delete',
 				value: this.translate( 'Delete' ),
@@ -164,3 +170,9 @@ export default React.createClass( {
 		);
 	}
 } );
+
+export default connect( ( state ) => {
+	return {
+		user: getCurrentUser( state )
+	};
+} )( MediaModalSecondaryActions );
