@@ -10,7 +10,7 @@ var includes = require( 'lodash/collection/includes' );
 
 var PLUGIN_TITLE = 'PragmaChecker';
 var SSR_READY = '/** @ssr-ready **/';
-var IGNORED_MODULES = [ 'config' ];
+var IGNORED_MODULES = [ 'config', 'lib/formatting/decode-entities' ];
 
 function PragmaCheckPlugin( options ) {
 	this.options = options || {};
