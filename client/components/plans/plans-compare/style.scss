@@ -15,3 +15,19 @@
 	text-align: right;
 	margin-top: 15px;
 }
+
+.jetpack_free {
+	display: none;
+}
+
+.jetpack_premium, .jetpack_business {
+	width: 37%;
+}
+
+.plans-compare .jetpack_premium .plan-header__title, .plans-compare .jetpack_business .plan-header__title {
+	margin-top: 0px;
+}
+
+.plans-compare .jetpack-price:first-child {
+	margin-top: 0;
+}
