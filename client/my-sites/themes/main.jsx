@@ -26,6 +26,7 @@ var Main = require( 'components/main' ),
 	ThemesSelection = require( './themes-selection' ),
 	ThemeHelpers = require( 'lib/themes/helpers' ),
 	getButtonOptions = require( './theme-options' ).getButtonOptions,
+	addTracking = require( './theme-options' ).addTracking,
 	actionLabels = require( './action-labels' ),
 	ThemesListSelectors = require( 'lib/themes/selectors/themes-list' ),
 	user = require( 'lib/user' )();
@@ -112,7 +113,14 @@ var Themes = React.createClass( {
 		var site = this.props.sites.getSelectedSite(),
 			isJetpack = site.jetpack,
 			jetpackEnabled = config.isEnabled( 'manage/themes-jetpack' ),
-			dispatch = this.props.dispatch;
+			dispatch = this.props.dispatch,
+			buttonOptions = getButtonOptions(
+				site,
+				this.isLoggedOut(),
+				bindActionCreators( Action, dispatch ),
+				this.setSelectedTheme,
+				this.togglePreview
+			);
 
 		if ( isJetpack && jetpackEnabled && ! site.hasJetpackThemes ) {
 			return <JetpackUpgradeMessage site={ site } />;
@@ -158,7 +166,7 @@ var Themes = React.createClass( {
 						siteId={ this.props.siteId }
 						selectedSite={ site }
 						togglePreview={ this.togglePreview }
-						options={ getButtonOptions( site, this.isLoggedOut(), bindActionCreators( Action, dispatch ), this.setSelectedTheme, this.togglePreview ) }
+						options={ addTracking( buttonOptions ) }
 						trackScrollPage={ this.props.trackScrollPage }
 						tier={ this.props.tier }
 						customize={ bindActionCreators( Action.customize, dispatch ) }

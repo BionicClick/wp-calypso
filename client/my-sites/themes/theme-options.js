@@ -56,7 +56,6 @@ export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, 
 
 	let options = pick( buttonOptions, option => ! option.isHidden );
 	options = mapValues( options, appendLabelAndHeader );
-	options = mapValues( options, appendActionTracking );
 	return options;
 
 	function appendLabelAndHeader( option, name ) {
@@ -73,6 +72,10 @@ export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, 
 		} );
 	};
 };
+
+export function addTracking( options ) {
+	return mapValues( options, appendActionTracking );
+}
 
 function appendActionTracking( option, name ) {
 	const { action } = option;
