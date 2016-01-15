@@ -3,6 +3,7 @@
  */
 var ReactDom = require( 'react-dom' ),
 	React = require( 'react' ),
+	ReduxProvider = require( 'react-redux' ).Provider,
 	noop = require( 'lodash/utility/noop' ),
 	debug = require( 'debug' )( 'calypso:dialog' );
 
@@ -19,6 +20,10 @@ var Dialog = React.createClass( {
 		enterTimeout: React.PropTypes.number,
 		leaveTimeout: React.PropTypes.number,
 		onClosed: React.PropTypes.func
+	},
+
+	contextTypes: {
+		store: React.PropTypes.object
 	},
 
 	getDefaultProps: function() {
@@ -57,6 +62,16 @@ var Dialog = React.createClass( {
 	_renderDialogBase: function() {
 		var dialogComponent = this.props.isVisible ? <DialogBase { ...this.props } key="dialog" onDialogClose={ this.onDialogClose } /> : null,
 			transitionName = this.props.baseClassName || 'dialog';
+
+		// Context is lost when creating a new render hierarchy, so ensure that
+		// we preserve the context that we care about
+		if ( dialogComponent && this.context.store ) {
+			dialogComponent = (
+				<ReduxProvider store={ this.context.store }>
+					{ dialogComponent }
+				</ReduxProvider>
+			);
+		}
 
 		ReactDom.render(
 			<SingleChildCSSTransitionGroup
