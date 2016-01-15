@@ -44,7 +44,6 @@ describe( 'Theme', function() {
 			id: 'atheme',
 			name: 'Theme name',
 			screenshot: '/theme/screenshot.png',
-			isSelected: true,
 			buttonContents: { dummyAction: { label: 'Dummy action', action: sinon.spy() } } // TODO: test if called when clicked
 		};
 	} );
