@@ -11,7 +11,7 @@ import pick from 'lodash/object/pick';
 import Helper from 'lib/themes/helpers';
 import actionLabels from './action-labels';
 
-export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, togglePreview ) {
+export function getButtonOptions( site, isLoggedOut, actions, letUserSelectSite, togglePreview ) {
 	const buttonOptions = {
 		signup: {
 			getUrl: theme => Helper.getSignupUrl( theme ),
@@ -24,21 +24,21 @@ export function getButtonOptions( site, isLoggedOut, actions, setSelectedTheme, 
 		purchase: {
 			action: theme => site
 				? actions.purchase( theme, site, 'showcase' )
-				: setSelectedTheme( 'purchase', theme ),
+				: letUserSelectSite( 'purchase', theme ),
 			isHidden: isLoggedOut,
 			hideForTheme: theme => theme.active || theme.purchased || ! theme.price
 		},
 		activate: {
 			action: theme => site
 				? actions.activate( theme, site, 'showcase' )
-				: setSelectedTheme( 'activate', theme ),
+				: letUserSelectSite( 'activate', theme ),
 			isHidden: isLoggedOut,
 			hideForTheme: theme => theme.active || ( theme.price && ! theme.purchased )
 		},
 		customize: {
 			action: theme => site
 				? actions.customize( theme, site )
-				: setSelectedTheme( 'customize', theme ),
+				: letUserSelectSite( 'customize', theme ),
 			isHidden: isLoggedOut && ( site && ! site.isCustomizable() ),
 			hideForTheme: theme => ! theme.active
 		},
