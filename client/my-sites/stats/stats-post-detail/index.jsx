@@ -41,7 +41,7 @@ export default React.createClass( {
 		const post = this.props.postViewsList.response.post;
 		const postOnRecord = post && post.post_title !== null;
 
-		if ( postOnRecord && ! this.props.postViewsList.isError() ) {
+		if ( postOnRecord ) {
 			if ( typeof post.post_title === 'string' && post.post_title.length ) {
 				title = <Emojify>{ post.post_title }</Emojify>;
 			}
