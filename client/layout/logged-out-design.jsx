@@ -9,7 +9,7 @@ import React from 'react';
  * Internal dependencies
  */
 import MasterbarLoggedOut from 'layout/masterbar/logged-out';
-import ThemesHead from 'components/themes-head';
+import ThemesHead from 'my-sites/themes/head';
 
 const LayoutLoggedOutDesign = ( { tier = 'all' } ) => (
 	<div className="wp is-section-design has-no-sidebar">
