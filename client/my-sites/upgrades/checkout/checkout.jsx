@@ -140,8 +140,7 @@ module.exports = React.createClass( {
 
 			return purchasePaths.managePurchaseDestination( renewalItem.extra.purchaseDomain, renewalItem.extra.purchaseId, 'thank-you' );
 		} else if ( cartItems.hasFreeTrial( this.props.cart ) ) {
-			planActions.clearSitePlans();
-
+			// Refresh all sites (/sites) to have an updated `site.plan` value.
 			Dispatcher.handleServerAction( {
 				type: 'FETCH_SITES'
 			} );
