@@ -17,7 +17,6 @@ const assign = require( 'lodash/object/assign' ),
  */
 const layoutFocus = require( 'lib/layout-focus' ),
 	Tags = require( 'lib/reader-tags/subscriptions' ),
-	TagActions = require( 'lib/reader-tags/actions' ),
 	ReaderListsSubscriptionsStore = require( 'lib/reader-lists/subscriptions' ),
 	ReaderListsStore = require( 'lib/reader-lists/lists' ),
 	ReaderListActions = require( 'lib/reader-lists/actions' ),
@@ -31,6 +30,8 @@ const layoutFocus = require( 'lib/layout-focus' ),
 	discoverHelper = require( 'reader/discover/helper' ),
 	config = require( 'config' ),
 	ExpandableSidebarMenu = require( './expandable' );
+
+import ReaderSidebarTagSection from './tags/index';
 
 module.exports = React.createClass( {
 	displayName: 'ReaderSidebar',
@@ -115,34 +116,6 @@ module.exports = React.createClass( {
 		this.setState( this.getStateFromStores() );
 	},
 
-	followTag: function( tag ) {
-		var subscription;
-		subscription = Tags.getSubscription( TagActions.slugify( tag ) );
-		if ( subscription ) {
-			this.highlightNewTag( subscription );
-		} else {
-			TagActions.follow( tag );
-			stats.recordAction( 'followed_topic' );
-			stats.recordGaEvent( 'Clicked Follow Topic', tag );
-			stats.recordTrack( 'calypso_reader_reader_tag_followed', {
-				tag: tag
-			} );
-		}
-	},
-
-	unfollowTag: function( event ) {
-		var node = closest( event.target, '[data-tag-slug]', true );
-		event.preventDefault();
-		if ( node && node.dataset.tagSlug ) {
-			stats.recordAction( 'unfollowed_topic' );
-			stats.recordGaEvent( 'Clicked Unfollow Topic', node.dataset.tagSlug );
-			stats.recordTrack( 'calypso_reader_reader_tag_unfollowed', {
-				tag: node.dataset.tagSlug
-			} );
-			TagActions.unfollow( { slug: node.dataset.tagSlug } );
-		}
-	},
-
 	highlightNewList: function( list ) {
 		list = ReaderListsStore.get( list.owner, list.slug );
 		window.location.href = url.resolve( 'https://wordpress.com', url.resolve( list.URL, 'edit' ) );
@@ -160,20 +133,6 @@ module.exports = React.createClass( {
 		stats.recordGaEvent( 'Clicked Create List' );
 		//ReaderListActions.create( ReactDom.findDOMNode( this.refs.addListInput ).value );
 		ReaderListActions.create( list );
-	},
-
-	handleCreateListKeyDown: function( event ) {
-		// Submit when enter key is pressed
-		if ( event.keyCode === 13 ) {
-			this.createList( event );
-		}
-	},
-
-	handleFollowTagKeyDown: function( event ) {
-		// Submit when enter key is pressed
-		if ( event.keyCode === 13 ) {
-			this.followTag( event );
-		}
 	},
 
 	renderLists: function() {
@@ -221,28 +180,6 @@ module.exports = React.createClass( {
 		}, this );
 	},
 
-	renderTags: function() {
-		if ( ! this.state.tags || this.state.tags.length === 0 ) {
-			return (
-				[ <li key="empty" className="sidebar__menu-empty">{ this.translate( 'Finds relevant posts by adding a\xa0tag.' ) }</li> ]
-			);
-		}
-
-		return map( this.state.tags, function( tag ) {
-			return (
-				<li className={ this.itemLinkClass( '/tag/' + tag.slug, { 'sidebar__menu-item': true } ) } key={ tag.ID } >
-					<a className="sidebar__menu-item-label" href={ tag.URL }>
-						{ tag.title || tag.slug }
-					</a>
-					{ tag.ID !== 'pending' ? <button className="sidebar__menu-action" data-tag-slug={ tag.slug } onClick={ this.unfollowTag }>
-						<Gridicon icon="cross-small" />
-						<span className="sidebar__menu-action-label">{ this.translate( 'Unfollow' ) }</span>
-					</button> : null }
-				</li>
-			);
-		}, this );
-	},
-
 	renderTeams: function() {
 		if ( ! this.state.teams ) {
 			return null;
@@ -262,8 +199,7 @@ module.exports = React.createClass( {
 	},
 
 	render: function() {
-		const tagCount = this.state.tags ? this.state.tags.length : 0,
-			listCount = this.state.lists ? this.state.lists.length : 0;
+		const listCount = this.state.lists ? this.state.lists.length : 0;
 
 		return (
 			<Sidebar onClick={ this.handleClick }>
@@ -326,14 +262,7 @@ module.exports = React.createClass( {
 					{ this.renderLists() }
 				</ExpandableSidebarMenu>
 
-				<ExpandableSidebarMenu
-					expanded={ true }
-					title={ this.translate( 'Tags' ) }
-					count={ tagCount }
-					addPlaceholder={ this.translate( 'Add any tag' ) }
-					onAddSubmit={ this.followTag }>
-					{ this.renderTags() }
-				</ExpandableSidebarMenu>
+				<ReaderSidebarTagSection tags={ this.state.tags } />
 			</Sidebar>
 		);
 	}
