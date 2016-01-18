@@ -148,7 +148,7 @@ var Themes = React.createClass( {
 						<Button primary onClick={ this.setState.bind( this, { showPreview: false },
 							() => {
 								if ( this.isLoggedOut() ) {
-									buttonOptions.preview.action( this.state.previewingTheme )
+									dispatch( Action.signup( this.state.previewingTheme ) );
 								} else {
 									buttonOptions.customize.action( this.state.previewingTheme );
 								}
