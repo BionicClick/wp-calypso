@@ -179,7 +179,7 @@ module.exports = React.createClass( {
 	renderLists: function() {
 		if ( ! this.state.lists ) {
 			return (
-				[ <li key="empty" className="sidebar-menu__empty">{ this.translate( 'Collect sites together by adding a\xa0list.' ) }</li> ]
+				[ <li key="empty" className="sidebar__menu-empty">{ this.translate( 'Collect sites together by adding a\xa0list.' ) }</li> ]
 			);
 		}
 
@@ -204,9 +204,9 @@ module.exports = React.createClass( {
 			const isActionButtonSelected = this.pathStartsWithOneOf( listManagementUrls );
 
 			const classes = classnames(
-				this.itemLinkClassStartsWithOneOf( [ listRelativeUrl ], { 'sidebar-menu__item has-buttons': true } ),
+				this.itemLinkClassStartsWithOneOf( [ listRelativeUrl ], { 'sidebar__menu-item has-buttons': true } ),
 				{
-					'sidebar-dynamic-menu__list has-buttons': true,
+					'sidebar-dynamic-menu-list has-buttons': true,
 					selected: isCurrentList || isActionButtonSelected,
 					'is-action-button-selected': isActionButtonSelected
 				}
@@ -214,7 +214,7 @@ module.exports = React.createClass( {
 
 			return (
 				<li className={ classes } key={ list.ID } >
-					<a className="sidebar-menu__item-label" href={ list.URL }>{ list.title }</a>
+					<a className="sidebar__menu-item-label" href={ list.URL }>{ list.title }</a>
 					{ list.is_owner ? <a href={ listManageUrl } rel={ listRel } className="add-new">{ this.translate( 'Manage' ) }</a> : null }
 				</li>
 			);
@@ -224,19 +224,19 @@ module.exports = React.createClass( {
 	renderTags: function() {
 		if ( ! this.state.tags || this.state.tags.length === 0 ) {
 			return (
-				[ <li key="empty" className="sidebar-menu__empty">{ this.translate( 'Finds relevant posts by adding a\xa0tag.' ) }</li> ]
+				[ <li key="empty" className="sidebar__menu-empty">{ this.translate( 'Finds relevant posts by adding a\xa0tag.' ) }</li> ]
 			);
 		}
 
 		return map( this.state.tags, function( tag ) {
 			return (
-				<li className={ this.itemLinkClass( '/tag/' + tag.slug, { 'sidebar-menu__item': true } ) } key={ tag.ID } >
-					<a className="sidebar-menu__item-label" href={ tag.URL }>
+				<li className={ this.itemLinkClass( '/tag/' + tag.slug, { 'sidebar__menu-item': true } ) } key={ tag.ID } >
+					<a className="sidebar__menu-item-label" href={ tag.URL }>
 						{ tag.title || tag.slug }
 					</a>
-					{ tag.ID !== 'pending' ? <button className="sidebar-menu__action" data-tag-slug={ tag.slug } onClick={ this.unfollowTag }>
+					{ tag.ID !== 'pending' ? <button className="sidebar__menu-action" data-tag-slug={ tag.slug } onClick={ this.unfollowTag }>
 						<Gridicon icon="cross-small" />
-						<span className="sidebar-menu__action-label">{ this.translate( 'Unfollow' ) }</span>
+						<span className="sidebar__menu-action-label">{ this.translate( 'Unfollow' ) }</span>
 					</button> : null }
 				</li>
 			);
@@ -332,9 +332,7 @@ module.exports = React.createClass( {
 					count={ tagCount }
 					addPlaceholder={ this.translate( 'Add any tag' ) }
 					onAddSubmit={ this.followTag }>
-
 					{ this.renderTags() }
-
 				</ExpandableSidebarMenu>
 			</Sidebar>
 		);

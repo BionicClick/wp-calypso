@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import Gridicon from 'components/gridicon';
 import Button from 'components/button';
 import Count from 'components/count';
+import SidebarMenu from 'layout/sidebar/menu';
 import SidebarHeading from 'layout/sidebar/heading';
 
 const ExpandableSidebarMenu = React.createClass( {
@@ -49,14 +50,14 @@ const ExpandableSidebarMenu = React.createClass( {
 
 	renderContent: function() {
 		return (
-			<ul className="sidebar-menu__list">
+			<ul className="sidebar__menu-list">
 				{ this.props.children }
 			</ul>
 		);
 	},
 
 	renderHeader: function() {
-		const headerClasses = classNames( 'sidebar-menu__header' );
+		const headerClasses = classNames( 'sidebar__menu-header' );
 		return (
 			<div className={ headerClasses } onClick={ this.onClick }>
 				<SidebarHeading>
@@ -87,12 +88,12 @@ const ExpandableSidebarMenu = React.createClass( {
 
 	renderAdd: function() {
 		return(
-			<div className="sidebar-menu__add-item">
-				<Button compact className="sidebar-menu__add-button" onClick={ this.toggleAdd }>{ this.translate( 'Add' ) }</Button>
+			<div className="sidebar__menu-add-item">
+				<Button compact className="sidebar__menu-add-button" onClick={ this.toggleAdd }>{ this.translate( 'Add' ) }</Button>
 
-				<div className="sidebar-menu__add">
+				<div className="sidebar__menu-add">
 					<input
-						className="sidebar-menu__add-input"
+						className="sidebar__menu-add-input"
 						type="text"
 						placeholder={ this.props.addPlaceholder }
 						ref="menuAddInput"
@@ -106,7 +107,6 @@ const ExpandableSidebarMenu = React.createClass( {
 
 	render: function() {
 		const classes = classNames(
-			'sidebar__menu',
 			this.props.className,
 			{
 				'is-add-open': this.state.isAdding,
@@ -117,11 +117,11 @@ const ExpandableSidebarMenu = React.createClass( {
 		);
 
 		return (
-			<li className={ classes }>
+			<SidebarMenu className={ classes }>
 				{ this.renderHeader() }
 				{ this.renderAdd() }
 				{ this.renderContent() }
-			</li>
+			</SidebarMenu>
 		);
 	}
 } );
