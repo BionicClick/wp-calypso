@@ -18,6 +18,7 @@ var config = require( 'config' ),
 
 var LayoutLoggedOutDesignFactory = React.createFactory( LayoutLoggedOutDesign );
 var memoizedRenderToString = memoize( ReactDomServer.renderToString );
+var cachedDesignLayout;
 
 var HASH_LENGTH = 10,
 	URL_BASE_PATH = '/calypso',
@@ -379,8 +380,8 @@ module.exports = function() {
 
 			if ( config.isEnabled( 'server-side-rendering' ) ) {
 				try {
-					context.layout = memoizedRenderToString( LayoutLoggedOutDesignFactory() ); // Memoized based on markup
-					console.log( memoizedRenderToString.cache );
+					//context.layout = memoizedRenderToString( LayoutLoggedOutDesignFactory() ); // Memoized based on markup
+					context.layout = cachedDesignLayout || ( cachedDesignLayout = ReactDomServer.renderToString( LayoutLoggedOutDesignFactory() ) );
 				} catch ( ex ) {
 					if ( config( 'env' ) === 'development' ) {
 						throw ex;
