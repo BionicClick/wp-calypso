@@ -16,7 +16,6 @@ var ThemesComponent = require( 'my-sites/themes/main' ),
 	i18n = require( 'lib/mixins/i18n' ),
 	trackScrollPage = require( 'lib/track-scroll-page' ),
 	sites = require( 'lib/sites-list' )(),
-	titleActions = require( 'lib/screen-title/actions' ),
 	buildTitle = require( 'lib/screen-title/utils' );
 
 var controller = {
@@ -43,11 +42,7 @@ var controller = {
 
 		ReactDom.render(
 			React.createElement( ReduxProvider, { store: context.store },
-				React.createElement( Head,
-					{
-						title,
-						isTitleFormatted: true,
-					},
+				React.createElement( Head, { title },
 					React.createElement( ThemesComponent, {
 						key: site_id,
 						siteId: site_id,

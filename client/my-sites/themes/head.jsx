@@ -24,17 +24,17 @@ ThemesHead.propTypes = {
 
 const themesMeta = {
 	all: {
-		title: 'WordPress Themes',
+		title: 'WordPress Themes — WordPress.com',
 		description: 'Beautiful, responsive, free and premium WordPress themes for your photography site, portfolio, magazine, business website, or blog.',
 		canonicalUrl: 'https://wordpress.com/design',
 	},
 	free: {
-		title: 'Free WordPress Themes',
+		title: 'Free WordPress Themes — WordPress.com',
 		description: 'Discover Free WordPress Themes on the WordPress.com Theme Showcase.',
 		canonicalUrl: 'https://wordpress.com/design/type/free',
 	},
 	premium: {
-		title: 'Premium WordPress Themes',
+		title: 'Premium WordPress Themes — WordPress.com',
 		description: 'Discover Premium WordPress Themes on the WordPress.com Theme Showcase.',
 		canonicalUrl: 'https://wordpress.com/design/type/premium',
 	}
