@@ -30,7 +30,7 @@ const layoutFocus = require( 'lib/layout-focus' ),
 	Gridicon = require( 'components/gridicon' ),
 	discoverHelper = require( 'reader/discover/helper' ),
 	config = require( 'config' ),
-	ExpandableSidebarMenu = require( './menu' );
+	ExpandableSidebarMenu = require( './expandable' );
 
 module.exports = React.createClass( {
 	displayName: 'ReaderSidebar',
