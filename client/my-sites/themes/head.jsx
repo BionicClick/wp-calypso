@@ -10,12 +10,13 @@ import React from 'react';
  */
 import Head from 'layout/head';
 
-const ThemesHead = ( { tier } ) => (
+const ThemesHead = ( { tier, children } ) => (
 	<Head
 		title={ get( 'title', tier ) }
 		description={ get( 'description', tier ) }
-		canonicalUrl={ get( 'canonicalUrl', tier ) }
-	/>
+		canonicalUrl={ get( 'canonicalUrl', tier ) } >
+		{ children }
+	</Head>
 )
 
 ThemesHead.propTypes = {
