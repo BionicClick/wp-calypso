@@ -25,7 +25,7 @@ const ThemesSelection = React.createClass( {
 		selectedSite: PropTypes.object,
 		siteId: PropTypes.string,
 		search: PropTypes.string,
-		togglePreview: PropTypes.func.isRequired,
+		onScreenshotClick: PropTypes.func.isRequired,
 		options: React.PropTypes.objectOf( {
 			label: React.PropTypes.string,
 			header: React.PropTypes.string,
@@ -33,7 +33,6 @@ const ThemesSelection = React.createClass( {
 			getUrl: React.PropTypes.func,
 			hideForTheme: React.PropTypes.func
 		} ),
-		customize: PropTypes.func.isRequired,
 		queryParams: PropTypes.object.isRequired,
 		themesList: PropTypes.array.isRequired
 	},
@@ -81,12 +80,10 @@ const ThemesSelection = React.createClass( {
 		const site = this.props.selectedSite;
 
 		Helper.trackClick( 'theme', 'screenshot' );
-		if ( theme.active && site ) {
-			this.props.customize( theme, site );
-		} else {
+		if ( ! ( theme.active && site ) ) {
 			this.recordSearchResultsClick( theme, resultsRank );
-			this.props.togglePreview( theme );
 		}
+		this.props.onScreenshotClick( theme );
 	},
 
 	render() {
