@@ -38,17 +38,17 @@ module.exports = React.createClass( {
 	},
 
 	render: function() {
-	    const { plan, sitePlan: details } = this.props;
-	    const hasDiscount = details && details.rawDiscount > 0;
+		const { plan, sitePlan: details } = this.props;
+	  const hasDiscount = details && details.rawDiscount > 0;
 
-	    if ( this.props.isPlaceholder ) {
+	  if ( this.props.isPlaceholder ) {
 			return <div className="plan-price is-placeholder" />;
 		}
 
 		if ( this.props.site.jetpack ) {
 			return (
 		        <div className="plan-price">
-		            <span className="jetpack-price">{ this.props.plan.original }</span>
+		            <span className="jetpack-price">{ this.props.plan.formatted_original_price }</span>
 		            <small className="plan-price__billing-period">
 		                { this.translate( 'cost of individual plugins' ) }
 		            </small>
@@ -71,6 +71,6 @@ module.exports = React.createClass( {
 		    );
 		}
 
-		    
+
 	}
 } );
