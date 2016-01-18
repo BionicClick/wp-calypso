@@ -54,7 +54,7 @@ const wpcomContactForm = editor => {
 						onSave() {
 							//get contact form from state to save
 							const state = store.getState();
-							editor.execCommand( 'mceInsertContent', false, serialize( state.ui.editor.forms ) );
+							editor.execCommand( 'mceInsertContent', false, serialize( state.ui.editor.contactForm ) );
 						}
 					} )
 				),

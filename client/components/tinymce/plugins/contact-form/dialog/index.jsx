@@ -9,5 +9,5 @@ import { connect } from 'react-redux';
 import Dialog from './dialog';
 
 export default connect( state => {
-	return { contactForm: state.ui.editor.forms };
+	return { contactForm: state.ui.editor.contactForm };
 } )( Dialog );
