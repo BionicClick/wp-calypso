@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import Gridicon from 'components/gridicon';
 import Button from 'components/button';
 import Count from 'components/count';
+import SidebarHeading from 'layout/sidebar/heading';
 
 const ExpandableSidebarMenu = React.createClass( {
 
@@ -58,11 +59,11 @@ const ExpandableSidebarMenu = React.createClass( {
 		const headerClasses = classNames( 'sidebar-menu__header' );
 		return (
 			<div className={ headerClasses } onClick={ this.onClick }>
-				<h2 className="sidebar-heading">
+				<SidebarHeading>
 					<Gridicon icon="chevron-down" />
 					<span>{ this.props.title }</span>
 					<Count count={ this.props.count } />
-				</h2>
+				</SidebarHeading>
 
 				<div></div>
 			</div>

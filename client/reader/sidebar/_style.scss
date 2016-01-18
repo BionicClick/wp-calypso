@@ -42,7 +42,7 @@
 			margin-top: 0;
 		}
 
-		.sidebar-heading {
+		.sidebar__heading {
 			margin: 0;
 			padding: 10px 16px 10px 55px;
 			cursor: pointer;
@@ -86,7 +86,7 @@
 		}
 
 		&.is-toggle-open {
-			.sidebar-heading {
+			.sidebar__heading {
 				background-color: $gray-light;
 				box-shadow: 0 1px 0 lighten( $gray, 20 ),
 					0 -1px 0 lighten( $gray, 20 );
