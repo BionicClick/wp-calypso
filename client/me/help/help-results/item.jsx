@@ -20,6 +20,12 @@ module.exports = React.createClass( {
 		}
 	},
 
+	onClick: function( e ) {
+		if ( this.props.helpLink.disabled ) {
+			e.preventDefault();
+		}
+	},
+
 	render: function() {
 		return (
 			<a className="help-result" href={ this.props.helpLink.link } target="__blank" onClick={ this.onClick }>
